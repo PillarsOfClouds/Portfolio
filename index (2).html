@@ -1,0 +1,1230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloud | Natural Philosopher & Inventor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=JetBrains+Mono:wght@400;500&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0c10;
+            --bg-secondary: #12151c;
+            --bg-card: #181c25;
+            --accent-primary: #64ffda;
+            --accent-secondary: #7b93db;
+            --accent-warm: #ffd175;
+            --accent-coral: #ff7b7b;
+            --text-primary: #e8eaed;
+            --text-secondary: #9ca3af;
+            --text-muted: #6b7280;
+            --border-subtle: rgba(255,255,255,0.06);
+            --glow: rgba(100, 255, 218, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Source Sans 3', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════
+           BACKGROUND EFFECTS
+        ═══════════════════════════════════════════════════════════════ */
+        .bg-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                linear-gradient(rgba(100, 255, 218, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(100, 255, 218, 0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .bg-gradient {
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(ellipse at 30% 20%, rgba(100, 255, 218, 0.08) 0%, transparent 50%),
+                        radial-gradient(ellipse at 70% 80%, rgba(123, 147, 219, 0.06) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+            animation: drift 30s ease-in-out infinite;
+        }
+
+        @keyframes drift {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            50% { transform: translate(-5%, 5%) rotate(5deg); }
+        }
+
+        /* ═══════════════════════════════════════════════════════════════
+           NAVIGATION
+        ═══════════════════════════════════════════════════════════════ */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(10, 12, 16, 0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-subtle);
+            padding: 0 40px;
+        }
+
+        .nav-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .nav-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-logo::before {
+            content: '⚡';
+            font-size: 1.2rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 8px;
+        }
+
+        .nav-link {
+            padding: 10px 20px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: var(--accent-primary);
+            background: rgba(100, 255, 218, 0.08);
+        }
+
+        /* ═══════════════════════════════════════════════════════════════
+           HERO SECTION
+        ═══════════════════════════════════════════════════════════════ */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 120px 40px 80px;
+            z-index: 1;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            text-align: center;
+        }
+
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(3rem, 8vw, 5.5rem);
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-primary) 50%, var(--accent-secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: titleReveal 1s ease-out forwards;
+        }
+
+        @keyframes titleReveal {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero-subtitle {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+            color: var(--accent-primary);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 32px;
+            animation: subtitleReveal 1s ease-out 0.2s forwards;
+            opacity: 0;
+        }
+
+        @keyframes subtitleReveal {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero-description {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto 48px;
+            animation: descReveal 1s ease-out 0.4s forwards;
+            opacity: 0;
+        }
+
+        @keyframes descReveal {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            flex-wrap: wrap;
+            animation: statsReveal 1s ease-out 0.6s forwards;
+            opacity: 0;
+        }
+
+        @keyframes statsReveal {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent-primary);
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-top: 8px;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════
+           MAIN CONTENT SECTIONS
+        ═══════════════════════════════════════════════════════════════ */
+        main {
+            position: relative;
+            z-index: 1;
+        }
+
+        section {
+            padding: 100px 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--accent-primary);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        /* ═══════════════════════════════════════════════════════════════
+           TAB NAVIGATION
+        ═══════════════════════════════════════════════════════════════ */
+        .tab-nav {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 50px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            padding: 14px 28px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            color: var(--text-secondary);
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .tab-btn:hover {
+            background: rgba(100, 255, 218, 0.05);
+            border-color: rgba(100, 255, 218, 0.2);
+            color: var(--text-primary);
+        }
+
+        .tab-btn.active {
+            background: rgba(100, 255, 218, 0.1);
+            border-color: var(--accent-primary);
+            color: var(--accent-primary);
+            box-shadow: 0 0 30px rgba(100, 255, 218, 0.1);
+        }
+
+        .tab-icon {
+            font-size: 1.1rem;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════
+           TAB CONTENT
+        ═══════════════════════════════════════════════════════════════ */
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ═══════════════════════════════════════════════════════════════
+           PROJECT CARDS
+        ═══════════════════════════════════════════════════════════════ */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 30px;
+        }
+
+        .project-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 16px;
+            padding: 32px;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(100, 255, 218, 0.2);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4),
+                        0 0 40px rgba(100, 255, 218, 0.05);
+        }
+
+        .project-card:hover::before {
+            opacity: 1;
+        }
+
+        .project-status {
+            display: inline-block;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 16px;
+        }
+
+        .status-active {
+            background: rgba(100, 255, 218, 0.15);
+            color: var(--accent-primary);
+        }
+
+        .status-concept {
+            background: rgba(255, 209, 117, 0.15);
+            color: var(--accent-warm);
+        }
+
+        .status-built {
+            background: rgba(123, 147, 219, 0.15);
+            color: var(--accent-secondary);
+        }
+
+        .status-complete {
+            background: rgba(100, 200, 150, 0.15);
+            color: #64c896;
+        }
+
+        .project-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+        }
+
+        .project-description {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .project-tag {
+            padding: 5px 12px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border-subtle);
+            border-radius: 6px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        /* ═══════════════════════════════════════════════════════════════
+           PHILOSOPHY SECTION
+        ═══════════════════════════════════════════════════════════════ */
+        .philosophy-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .philosophy-card {
+            background: linear-gradient(135deg, var(--bg-card) 0%, rgba(100, 255, 218, 0.03) 100%);
+            border: 1px solid var(--border-subtle);
+            border-radius: 16px;
+            padding: 36px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .philosophy-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(100, 255, 218, 0.2);
+        }
+
+        .philosophy-icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .philosophy-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+        }
+
+        .philosophy-text {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════
+           CREDENTIALS SECTION
+        ═══════════════════════════════════════════════════════════════ */
+        .credentials-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        @media (max-width: 900px) {
+            .credentials-wrapper {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .credential-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 16px;
+            padding: 36px;
+        }
+
+        .credential-heading {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--accent-primary);
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .credential-item {
+            padding: 16px 0;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .credential-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .credential-title {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 6px;
+        }
+
+        .credential-detail {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════
+           SKILLS SECTION
+        ═══════════════════════════════════════════════════════════════ */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+        }
+
+        .skill-category {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            padding: 28px;
+        }
+
+        .skill-category-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--accent-primary);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 16px;
+        }
+
+        .skill-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .skill-item {
+            padding: 8px 14px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            transition: all 0.2s ease;
+        }
+
+        .skill-item:hover {
+            background: rgba(100, 255, 218, 0.08);
+            border-color: rgba(100, 255, 218, 0.3);
+            color: var(--accent-primary);
+        }
+
+        /* ═══════════════════════════════════════════════════════════════
+           FOOTER
+        ═══════════════════════════════════════════════════════════════ */
+        footer {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 60px 40px;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .footer-quote {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-style: italic;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 24px;
+        }
+
+        .footer-text {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════
+           RESPONSIVE
+        ═══════════════════════════════════════════════════════════════ */
+        @media (max-width: 768px) {
+            nav {
+                padding: 0 20px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .hero {
+                padding: 100px 20px 60px;
+            }
+
+            .hero-stats {
+                gap: 40px;
+            }
+
+            section {
+                padding: 60px 20px;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .tab-nav {
+                gap: 8px;
+            }
+
+            .tab-btn {
+                padding: 12px 18px;
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-grid"></div>
+    <div class="bg-gradient"></div>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-inner">
+            <a href="#" class="nav-logo">Cloud</a>
+            <div class="nav-links">
+                <a class="nav-link" onclick="scrollToSection('about')">About</a>
+                <a class="nav-link" onclick="scrollToSection('projects')">Projects</a>
+                <a class="nav-link" onclick="scrollToSection('credentials')">Credentials</a>
+                <a class="nav-link" onclick="scrollToSection('skills')">Skills</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="about">
+        <div class="hero-content">
+            <p class="hero-subtitle">Natural Philosopher • Inventor • Pattern Synthesizer</p>
+            <h1 class="hero-title">Cloud</h1>
+            <p class="hero-description">
+                Technology should give humanity life, not extract from it. I see the patterns others miss — 
+                connecting electrical engineering, physics, and biomimicry to create solutions that serve 
+                communities rather than exploit them.
+            </p>
+            <div class="hero-stats">
+                <div class="stat">
+                    <div class="stat-number">15+</div>
+                    <div class="stat-label">Inventions</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">6</div>
+                    <div class="stat-label">Categories</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">2025</div>
+                    <div class="stat-label">B.S.E.E.T.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Philosophy Section -->
+    <section id="philosophy">
+        <div class="section-header">
+            <p class="section-tag">The Vision</p>
+            <h2 class="section-title">Guiding Principles</h2>
+        </div>
+        <div class="philosophy-grid">
+            <div class="philosophy-card">
+                <div class="philosophy-icon">🔮</div>
+                <h3 class="philosophy-title">Pattern Recognition</h3>
+                <p class="philosophy-text">Seeing the connections others miss. Physics, biomimicry, and energy systems speak the same language.</p>
+            </div>
+            <div class="philosophy-card">
+                <div class="philosophy-icon">🌿</div>
+                <h3 class="philosophy-title">Ecosystem Thinking</h3>
+                <p class="philosophy-text">Building systems that grow when users thrive, not when they're depleted. Circulation over extraction.</p>
+            </div>
+            <div class="philosophy-card">
+                <div class="philosophy-icon">⚡</div>
+                <h3 class="philosophy-title">Mission Over Profit</h3>
+                <p class="philosophy-text">Creating technologies that serve communities rather than extracting from them. Energy independence is liberation.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects">
+        <div class="section-header">
+            <p class="section-tag">Portfolio</p>
+            <h2 class="section-title">Inventions & Projects</h2>
+        </div>
+
+        <div class="tab-nav">
+            <button class="tab-btn active" onclick="showTab('energy')">
+                <span class="tab-icon">⚡</span> Energy Systems
+            </button>
+            <button class="tab-btn" onclick="showTab('software')">
+                <span class="tab-icon">🖥️</span> Software
+            </button>
+            <button class="tab-btn" onclick="showTab('troubleshoot')">
+                <span class="tab-icon">🔧</span> Troubleshooting
+            </button>
+            <button class="tab-btn" onclick="showTab('creative')">
+                <span class="tab-icon">🎨</span> Creative
+            </button>
+            <button class="tab-btn" onclick="showTab('research')">
+                <span class="tab-icon">📄</span> Research
+            </button>
+            <button class="tab-btn" onclick="showTab('fpga')">
+                <span class="tab-icon">🎓</span> FPGA/Digital
+            </button>
+        </div>
+
+        <!-- Energy Systems Tab -->
+        <div class="tab-content active" id="tab-energy">
+            <div class="projects-grid">
+                <div class="project-card">
+                    <span class="project-status status-active">In Development</span>
+                    <h3 class="project-title">Copperline (SSGE)</h3>
+                    <p class="project-description">Self-sustaining Solid-State Ground Electron system. Earth powers joule thief directly — PTFE provides initial triboelectric kick, no external battery needed. Uses ~100-150 V/m atmospheric electric field gradient.</p>
+                    <div class="project-tags">
+                        <span class="project-tag">Energy Harvesting</span>
+                        <span class="project-tag">Joule Thief</span>
+                        <span class="project-tag">Electrostatics</span>
+                        <span class="project-tag">Ground Potential</span>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <span class="project-status status-built">Prototyped</span>
+                    <h3 class="project-title">RF Energy Harvester</h3>
+                    <p class="project-description">Broadband coil antenna + Schottky diode rectifiers + Cockcroft-Walton voltage multipliers. Captures ambient RF from WiFi, AM/FM, cellular. Bell wire + PVC pipe construction.</p>
+                    <div class="project-tags">
+                        <span class="project-tag">RF Harvesting</span>
+                        <span class="project-tag">Voltage Multiplier</span>
+                        <span class="project-tag">Antenna Design</span>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <span class="project-status status-concept">Documented</span>
+                    <h3 class="project-title">Hematite Thermoelectric Generator</h3>
+                    <p class="project-description">Iron oxide (rust) solar absorber with 99.92% UV absorption + TEG modules. 2× power density over standard DIY systems. 50-60 W/m² output, 25-30W peak from 0.5 m².</p>
+                    <div class="project-tags">
+                        <span class="project-tag">Thermoelectric</span>
+                        <span class="project-tag">Solar Thermal</span>
+                        <span class="project-tag">Seebeck Effect</span>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <span class="project-status status-concept">Concept</span>
+                    <h3 class="project-title">Floating Power Rafts</h3>
+                    <p class="project-description">Water-cooled hematite TEG boats for hurricane emergency power bank charging. Cold side cooled by water = 50% more power. Designed for Florida market.</p>
+                    <div class="project-tags">
+                        <span class="project-tag">Emergency Power</span>
+                        <span class="project-tag">Water Cooling</span>
+                        <span class="project-tag">Hurricane Prep</span>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <span class="project-status status-concept">Concept</span>
+                    <h3 class="project-title">Corona Motor</h3>
+                    <p class="project-description">Atmospheric electricity powering ion thrust via corona discharge from sharp electrodes. Rotational motion from 100-150 V/m atmospheric gradient. No moving parts except rotor.</p>
+                    <div class="project-tags">
+                        <span class="project-tag">Atmospheric Electricity</span>
+                        <span class="project-tag">Ion Thrust</span>
+                        <span class="project-tag">Corona Discharge</span>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <span class="project-status status-concept">Documented</span>
+                    <h3 class="project-title">Ferrofluid MHD Generator</h3>
+                    <p class="project-description">Magnetohydrodynamic power generation using magnetically-controlled ferrofluid. No mechanical pumps — magnets drive the flow directly. Room temperature operation.</p>
+                    <div class="project-tags">
+                        <span class="project-tag">MHD</span>
+                        <span class="project-tag">Ferrofluid</span>
+                        <span class="project-tag">Magnetic Propulsion</span>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <span class="project-status status-concept">Concept</span>
+                    <h3 class="project-title">Liquid Gallium MHD</h3>
+                    <p class="project-description">Hydraulic oscillating system forcing liquid metal through magnetic flux at high velocity. Dual-reservoir design with piston-driven pressure amplification for maximum power extraction.</p>
+                    <div class="project-tags">
+                        <span class="project-tag">Gallium</span>
+                        <span class="project-tag">Hydraulic</span>
+                        <span class="project-tag">MHD Generator</span>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <span class="project-status status-concept">Concept</span>
+                    <h3 class="project-title">Earth Magnetic Flux Harvester</h3>
+                    <p class="project-description">Honeycomb ferromagnetic concentrators + VAWT rotation + coil arrays. 200-300W power projections from Earth's magnetic field. Desktop proof-of-concept built.</p>
+                    <div class="project-tags">
+                        <span class="project-tag">Magnetic Harvesting</span>
+                        <span class="project-tag">Flux Concentration</span>
+                        <span class="project-tag">Faraday Induction</span>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <span class="project-status status-concept">Concept</span>
+                    <h3 class="project-title">Electrostatic Dust Display</h3>
+                    <p class="project-description">Volumetric 3D display using charged dust particles positioned by electrode arrays. Particles scatter laser light to create floating images in air.</p>
+                    <div class="project-tags">
+                        <span class="project-tag">Electrostatics</span>
+                        <span class="project-tag">Volumetric Display</span>
+                        <span class="project-tag">Particle Levitation</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Software Tab -->
+        <div class="tab-content" id="tab-software">
+            <div class="projects-grid">
+                <div class="project-card">
+                    <span class="project-status status-active">In Development</span>
+                    <h3 class="project-title">ProjectHolo 2</h3>
+                    <p class="project-description">Pepper's Ghost cone lamp with open bottom for hand interaction. 45° transparent cone + LED ring. MediaPipe hand tracking puts hologram directly in your palm.</p>
+                    <div class="project-tags">
+                        <span class="project-tag">Optics</span>
+                        <span class="project-tag">Pepper's Ghost</span>
+                        <span class="project-tag">Hand Tracking</span>
+                        <span class="project-tag">MediaPipe</span>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <span class="project-status status-built">Working</span>
+                    <h3 class="project-title">ASL Computer Control</h3>
+                    <p class="project-description">MediaPipe hand tracking → ASL gesture recognition → computer control. A=scroll up, B=scroll down, Thumbs up=zoom, D=tab, F=click. Speed slider included.</p>
+                    <div class="project-tags">
+                        <span class="project-tag">Python</span>
+                        <span class="project-tag">MediaPipe</span>
+                        <span class="project-tag">ASL</span>
+                        <span class="project-tag">Accessibility</span>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <span class="project-status status-concept">Concept</span>
+                    <h3 class="project-title">Jarvis AI Assistant</h3>
+                    <p class="project-description">Personal AI with web search, voice control, and wellness tracking. Python-based with customizable voice and GUI interface.</p>
+                    <div class="project-tags">
+                        <span class="project-tag">Python</span>
+                        <span class="project-tag">Voice Control</span>
+                        <span class="project-tag">AI Assistant</span>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <span class="project-status status-concept">Concept</span>
+                    <h3 class="project-title">NOAA Weather Radio</h3>
+                    <p class="project-description">DIY NOAA receiver for 162.4-162.55 MHz frequencies. Superheterodyne design for hurricane emergency alerts. Critical for Florida storm preparedness.</p>
+                    <div class="project-tags">
+                        <span class="project-tag">RF Receiver</span>
+                        <span class="project-tag">Emergency Alert</span>
+                        <span class="project-tag">Hurricane Prep</span>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <span class="project-status status-concept">Concept</span>
+                    <h3 class="project-title">Hurricane Emergency Lighting</h3>
+                    <p class="project-description">ESP32-controlled LED system with 14+ day runtime, WiFi dashboard, PWM dimming, battery monitoring. Solar recharge capability. Product concept for Florida market.</p>
+                    <div class="project-tags">
+                        <span class="project-tag">ESP32</span>
+                        <span class="project-tag">IoT</span>
+                        <span class="project-tag">Emergency Power</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Troubleshooting Tab -->
+        <div class="tab-content" id="tab-troubleshoot">
+            <div class="projects-grid">
+                <div class="project-card">
+                    <span class="project-status status-complete">Resolved</span>
+                    <h3 class="project-title">ABB ACH550 BACnet Integration</h3>
+                    <p class="project-description">Diagnosed VFD communication failure — Parameter 5301 set incorrectly (1103H instead of 3). Configured RS-485 termination, MAC addresses, and baud rate. Got Yabe to detect drive.</p>
+                    <div class="project-tags">
+                        <span class="project-tag">BACnet MS/TP</span>
+                        <span class="project-tag">VFD</span>
+                        <span class="project-tag">RS-485</span>
+                        <span class="project-tag">Yabe</span>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <span class="project-status status-complete">Resolved</span>
+                    <h3 class="project-title">Trane AHU VFD Panel</h3>
+                    <p class="project-description">Schematic analysis and troubleshooting for Trane variable frequency drive panel. Control wiring verification and communication protocol debugging.</p>
+                    <div class="project-tags">
+                        <span class="project-tag">HVAC</span>
+                        <span class="project-tag">VFD</span>
+                        <span class="project-tag">Schematics</span>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <span class="project-status status-complete">Resolved</span>
+                    <h3 class="project-title">Johnson Controls CCT Programming</h3>
+                    <p class="project-description">Learned Controller Configuration Tool for Metasys field controllers. Programming logic, point configuration, BACnet network setup, and commissioning workflows.</p>
+                    <div class="project-tags">
+                        <span class="project-tag">CCT</span>
+                        <span class="project-tag">Metasys</span>
+                        <span class="project-tag">BAS Programming</span>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <span class="project-status status-complete">Documented</span>
+                    <h3 class="project-title">VAV Box Evolution Study</h3>
+                    <p class="project-description">Created interactive 3D timeline of Johnson Controls VAV boxes from 1950s to present. Single duct, dual duct, parallel fan, series fan, modern TSS with FlowStar sensors.</p>
+                    <div class="project-tags">
+                        <span class="project-tag">VAV</span>
+                        <span class="project-tag">HVAC History</span>
+                        <span class="project-tag">3D Visualization</span>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <span class="project-status status-complete">Resolved</span>
+                    <h3 class="project-title">Sensor & Actuator Diagnostics</h3>
+                    <p class="project-description">0-10VDC and 4-20mA signal troubleshooting. Valve actuation systems, temperature/humidity sensors, pressure transducers. Field calibration and replacement procedures.</p>
+                    <div class="project-tags">
+                        <span class="project-tag">Sensors</span>
+                        <span class="project-tag">Actuators</span>
+                        <span class="project-tag">Calibration</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Creative Tab -->
+        <div class="tab-content" id="tab-creative">
+            <div class="projects-grid">
+                <div class="project-card">
+                    <span class="project-status status-complete">Built</span>
+                    <h3 class="project-title">Halloween UV Costume</h3>
+                    <p class="project-description">Built in 2 hours — neon string art on bucket hat, bike wheel contraption with geometric webbing, fluorescent mask. Proof you can execute under pressure, not just ideate.</p>
+                    <div class="project-tags">
+                        <span class="project-tag">UV Reactive</span>
+                        <span class="project-tag">Rapid Prototyping</span>
+                        <span class="project-tag">Wearable Art</span>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <span class="project-status status-concept">Concept</span>
+                    <h3 class="project-title">Biomimetic Design Philosophy</h3>
+                    <p class="project-description">Cactus → Capacitor connection. Applying biological storage optimization to electrical charge storage. Natural systems as engineering blueprints.</p>
+                    <div class="project-tags">
+                        <span class="project-tag">Biomimicry</span>
+                        <span class="project-tag">Design Philosophy</span>
+                        <span class="project-tag">Cross-Disciplinary</span>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <span class="project-status status-concept">Concept</span>
+                    <h3 class="project-title">Ecosystem Business Model</h3>
+                    <p class="project-description">Plant-like self-sustaining business structure. Circulation-based rather than extraction-based economics. No shareholders, customer-feedback driven. The company as living organism.</p>
+                    <div class="project-tags">
+                        <span class="project-tag">Business Model</span>
+                        <span class="project-tag">Ecosystem</span>
+                        <span class="project-tag">Natural Economics</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Research Tab -->
+        <div class="tab-content" id="tab-research">
+            <div class="projects-grid">
+                <div class="project-card">
+                    <span class="project-status status-complete">Complete</span>
+                    <h3 class="project-title">Hematite Solar Generator Paper</h3>
+                    <p class="project-description">35-page comprehensive technical document explaining the thermoelectric system at both 5th-grade and physicist levels. Includes quantum mechanics of Fe³⁺ d⁵ electron transitions.</p>
+                    <div class="project-tags">
+                        <span class="project-tag">Technical Writing</span>
+                        <span class="project-tag">Thermoelectrics</span>
+                        <span class="project-tag">Dual-Level Explanation</span>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <span class="project-status status-complete">Complete</span>
+                    <h3 class="project-title">Ferrofluid MHD Research Paper</h3>
+                    <p class="project-description">Formal paper on magnetically-actuated ferrofluid MHD generators. Novel approach to solid-state energy conversion with no moving mechanical parts.</p>
+                    <div class="project-tags">
+                        <span class="project-tag">Academic Paper</span>
+                        <span class="project-tag">MHD Theory</span>
+                        <span class="project-tag">Ferrofluid Physics</span>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <span class="project-status status-active">In Progress</span>
+                    <h3 class="project-title">Copperline Technical Documentation</h3>
+                    <p class="project-description">Comprehensive documentation of SSGE system theory, wiring diagrams, experimental protocols, and results. Prepared for patent and investor presentations.</p>
+                    <div class="project-tags">
+                        <span class="project-tag">Patent Prep</span>
+                        <span class="project-tag">Technical Docs</span>
+                        <span class="project-tag">Experimental Data</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FPGA/Digital Tab -->
+        <div class="tab-content" id="tab-fpga">
+            <div class="projects-grid">
+                <div class="project-card">
+                    <span class="project-status status-complete">Complete</span>
+                    <h3 class="project-title">7-Segment Decoder (VHDL)</h3>
+                    <p class="project-description">Boolean logic implementation for HEX display on DE2 board. 2-bit input → 7-segment output with proper entity/architecture structure.</p>
+                    <div class="project-tags">
+                        <span class="project-tag">VHDL</span>
+                        <span class="project-tag">Boolean Logic</span>
+                        <span class="project-tag">DE2 Board</span>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <span class="project-status status-complete">Complete</span>
+                    <h3 class="project-title">4-Bit Multiplexer</h3>
+                    <p class="project-description">2-to-1 MUX using switches and LEDs. Debugged syntax issues (VHDL parentheses vs brackets) and signal type mismatches.</p>
+                    <div class="project-tags">
+                        <span class="project-tag">VHDL</span>
+                        <span class="project-tag">Combinational Logic</span>
+                        <span class="project-tag">Debugging</span>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <span class="project-status status-complete">Complete</span>
+                    <h3 class="project-title">10-Bit Counter with Display</h3>
+                    <p class="project-description">Frequency divider + 10-bit counter + ROM lookup for 7-segment display. Multi-file VHDL project with top-level entity integration.</p>
+                    <div class="project-tags">
+                        <span class="project-tag">Sequential Logic</span>
+                        <span class="project-tag">ROM</span>
+                        <span class="project-tag">Quartus II</span>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <span class="project-status status-complete">Complete</span>
+                    <h3 class="project-title">Simple Processor Design</h3>
+                    <p class="project-description">Understanding clock-driven flip-flops, registers, instruction execution, and bus architecture. FSM-based control unit concepts.</p>
+                    <div class="project-tags">
+                        <span class="project-tag">CPU Architecture</span>
+                        <span class="project-tag">FSM</span>
+                        <span class="project-tag">Digital Systems</span>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <span class="project-status status-complete">Complete</span>
+                    <h3 class="project-title">DE2 Pin Assignment Files</h3>
+                    <p class="project-description">Created comprehensive .qsf pin assignment files for Altera Cyclone II DE2 board. All switches, LEDs, 7-segment displays, and clocks mapped.</p>
+                    <div class="project-tags">
+                        <span class="project-tag">Quartus II</span>
+                        <span class="project-tag">Pin Mapping</span>
+                        <span class="project-tag">Board Config</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Credentials Section -->
+    <section id="credentials">
+        <div class="section-header">
+            <p class="section-tag">Background</p>
+            <h2 class="section-title">Credentials & Experience</h2>
+        </div>
+        <div class="credentials-wrapper">
+            <div class="credential-section">
+                <h3 class="credential-heading">🎓 Education</h3>
+                <div class="credential-item">
+                    <div class="credential-title">B.S. Electrical Engineering Technology</div>
+                    <div class="credential-detail">Daytona State College • Spring 2025</div>
+                </div>
+                <div class="credential-item">
+                    <div class="credential-title">Coursework Highlights</div>
+                    <div class="credential-detail">Discrete Computational Analytics, Digital Systems Design, FPGA/VHDL Programming, Circuit Analysis, Power Systems</div>
+                </div>
+                <div class="credential-item">
+                    <div class="credential-title">Academic Roles</div>
+                    <div class="credential-detail">Math Tutor • Lab Assistant • Capstone PM</div>
+                </div>
+            </div>
+            <div class="credential-section">
+                <h3 class="credential-heading">💼 Experience</h3>
+                <div class="credential-item">
+                    <div class="credential-title">Controls Systems Technician I</div>
+                    <div class="credential-detail">Johnson Controls • Ormond Beach, FL • 2025-Present</div>
+                </div>
+                <div class="credential-item">
+                    <div class="credential-title">Core Responsibilities</div>
+                    <div class="credential-detail">Commissioning BACnet/MSTP control networks, troubleshooting Allen Bradley PLCs, sensor diagnostics, HVAC system integration, VFD programming</div>
+                </div>
+                <div class="credential-item">
+                    <div class="credential-title">Rate</div>
+                    <div class="credential-detail">$24.50/hour</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills">
+        <div class="section-header">
+            <p class="section-tag">Technical</p>
+            <h2 class="section-title">Skills & Tools</h2>
+        </div>
+        <div class="skills-grid">
+            <div class="skill-category">
+                <h4 class="skill-category-title">Control Systems</h4>
+                <div class="skill-list">
+                    <span class="skill-item">BACnet/MSTP</span>
+                    <span class="skill-item">Allen Bradley PLCs</span>
+                    <span class="skill-item">RSLogix</span>
+                    <span class="skill-item">Johnson Controls CCT</span>
+                    <span class="skill-item">Metasys</span>
+                    <span class="skill-item">DDC Controllers</span>
+                </div>
+            </div>
+            <div class="skill-category">
+                <h4 class="skill-category-title">Programming</h4>
+                <div class="skill-list">
+                    <span class="skill-item">Python</span>
+                    <span class="skill-item">C#</span>
+                    <span class="skill-item">VHDL</span>
+                    <span class="skill-item">MATLAB/Simulink</span>
+                    <span class="skill-item">JavaScript</span>
+                </div>
+            </div>
+            <div class="skill-category">
+                <h4 class="skill-category-title">Hardware</h4>
+                <div class="skill-list">
+                    <span class="skill-item">FPGA (Cyclone II DE2)</span>
+                    <span class="skill-item">ESP32</span>
+                    <span class="skill-item">Quartus II</span>
+                    <span class="skill-item">Oscilloscopes</span>
+                    <span class="skill-item">Multimeters</span>
+                    <span class="skill-item">Soldering</span>
+                </div>
+            </div>
+            <div class="skill-category">
+                <h4 class="skill-category-title">Domain Knowledge</h4>
+                <div class="skill-list">
+                    <span class="skill-item">Energy Harvesting</span>
+                    <span class="skill-item">Electromagnetics</span>
+                    <span class="skill-item">Thermoelectrics</span>
+                    <span class="skill-item">RF Systems</span>
+                    <span class="skill-item">HVAC Controls</span>
+                    <span class="skill-item">Biomimicry</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p class="footer-quote">"Technology should give humanity life, not extract from it."</p>
+        <p class="footer-text">Cloud • Natural Philosopher • Ormond Beach, FL • 2025</p>
+    </footer>
+
+    <script>
+        function showTab(tabId) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Remove active from all buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Show selected tab
+            document.getElementById('tab-' + tabId).classList.add('active');
+            
+            // Activate clicked button
+            event.target.closest('.tab-btn').classList.add('active');
+        }
+
+        function scrollToSection(sectionId) {
+            document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Add scroll-based nav highlighting
+        window.addEventListener('scroll', () => {
+            const sections = ['about', 'projects', 'credentials', 'skills'];
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            let current = '';
+            sections.forEach(sectionId => {
+                const section = document.getElementById(sectionId);
+                if (section) {
+                    const sectionTop = section.offsetTop;
+                    if (scrollY >= sectionTop - 200) {
+                        current = sectionId;
+                    }
+                }
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('onclick')?.includes(current)) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
